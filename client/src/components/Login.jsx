@@ -36,8 +36,9 @@ const Login = () => {
         dispatch(authActions.login());
         navigate("/");
       })
-      .catch(({ response }) => {
-        console.log(response.data.message);
+      .catch((error) => {
+        console.log(error);
+        console.log(error.response.data.message);
       });
   };
 

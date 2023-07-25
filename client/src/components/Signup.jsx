@@ -15,6 +15,7 @@ const Signup = () => {
   const form = useForm({
     initialValues: {
       name: "",
+      mobile: "",
       email: "",
       password: "",
     },
@@ -22,7 +23,11 @@ const Signup = () => {
     validate: {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
       password: (value) =>
-        value.length > 6 ? null : "Password should minimum 6 characters",
+        value.length > 6 ? null : "Password must be minimum 6 characters",
+      mobile: (value) =>
+        value.length === 10
+          ? null
+          : "Mobile number must be minimum 6 characters",
     },
   });
 
@@ -49,6 +54,12 @@ const Signup = () => {
           label="Name"
           placeholder="John Doe"
           {...form.getInputProps("name")}
+        />
+        <TextInput
+          withAsterisk
+          label="Mobile Number"
+          placeholder="9876543210"
+          {...form.getInputProps("mobile")}
         />
         <TextInput
           withAsterisk

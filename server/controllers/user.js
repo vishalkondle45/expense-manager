@@ -55,6 +55,12 @@ exports.login = async (req, res, next) => {
   if (!isPasswordCorrect) {
     return res.status(401).json({ message: "Invalid Email / Password" });
   }
+  if (!isEmailRegistered.active) {
+    return res.status(403).json({
+      message:
+        "Please activate your account by clicking on link sent to your email.",
+    });
+  }
   const token = jwt.sign(
     { _id: isEmailRegistered._id },
     process.env.JWT_SECRET,
