@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { sendMail } = require("../config/library");
 
 exports.signup = async (req, res, next) => {
   let isEmailRegistered;
@@ -23,9 +24,17 @@ exports.signup = async (req, res, next) => {
 
   try {
     await user.save();
+    let find = await User.findOne({ email: req.body.email });
+
+    const mailData = {
+      from: "vishal.kondle@gmail.com",
+      to: req.body.email,
+      subject: "Active your account",
+      html: `<!DOCTYPE html><html><title>W3.CSS</title><meta name="viewport" content="width=device-width,initial-scale=1"><body><div style="text-align:center!important;padding:.01em 16px"><h1>Verify Your Account</h1><h5>Please click below button to verify/activate your account.</h5><a href="http://localhost:3000/verify/${find._id}" target="_blank"><button style="color:#fff!important;background-color:#4caf50!important;border:none;display:inline-block;padding:8px 16px;vertical-align:middle;overflow:hidden;text-decoration:none;color:inherit;background-color:inherit;text-align:center;cursor:pointer;white-space:nowrap">Click Here</button></a></div></body></html>`,
+    };
+    sendMail(mailData);
     return res.status(201).json({
-      message: `User created successfully`,
-      user,
+      message: `User created successfully, Please check activation email.`,
     });
   } catch (error) {
     return res.status(500).json({
@@ -56,6 +65,13 @@ exports.login = async (req, res, next) => {
     return res.status(401).json({ message: "Invalid Email / Password" });
   }
   if (!isEmailRegistered.active) {
+    const mailData = {
+      from: "vishal.kondle@gmail.com",
+      to: isEmailRegistered.email,
+      subject: "Active your account",
+      html: `<!DOCTYPE html><html><title>W3.CSS</title><meta name="viewport" content="width=device-width,initial-scale=1"><body><div style="text-align:center!important;padding:.01em 16px"><h1>Verify Your Account</h1><h5>Please click below button to verify/activate your account.</h5><a href="http://localhost:3000/verify/${isEmailRegistered._id}" target="_blank"><button style="color:#fff!important;background-color:#4caf50!important;border:none;display:inline-block;padding:8px 16px;vertical-align:middle;overflow:hidden;text-decoration:none;color:inherit;background-color:inherit;text-align:center;cursor:pointer;white-space:nowrap">Click Here</button></a></div></body></html>`,
+    };
+    sendMail(mailData);
     return res.status(403).json({
       message:
         "Please activate your account by clicking on link sent to your email.",
@@ -163,4 +179,23 @@ exports.logout = async (req, res, next) => {
     req.cookies[`${user._id}`] = "";
     res.status(200).json({ message: "Successfully logged out" });
   });
+};
+
+exports.activate = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.body._id);
+    if (!user) {
+      return res
+        .status(401)
+        .json({ message: "Invalid request, please check your email." });
+    }
+    await User.findByIdAndUpdate(req.body._id, { active: true }, { new: true });
+    return res
+      .status(200)
+      .json({ message: "You are account is activated successfully." });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Error while activating your account." });
+  }
 };
