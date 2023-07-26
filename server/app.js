@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const userRoutes = require("../server/routes/user");
+const groupRoutes = require("../server/routes/group");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 require("dotenv").config();
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api", userRoutes);
+app.use("/api/group", groupRoutes);
 
 // Database Connection
 mongoose
