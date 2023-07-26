@@ -9,7 +9,11 @@ import { store } from "./store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <MantineProvider withGlobalStyles withNormalizeCSS>
+  <MantineProvider
+    theme={{ primaryColor: "dark" }}
+    withGlobalStyles
+    withNormalizeCSS
+  >
     <Notifications />
     <BrowserRouter>
       <Provider store={store}>

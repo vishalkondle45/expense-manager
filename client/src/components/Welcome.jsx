@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { authActions } from "../store";
@@ -8,7 +8,6 @@ axios.defaults.withCredentials = true;
 const Welcome = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const getUser = async () => {
@@ -19,7 +18,6 @@ const Welcome = () => {
         .then(({ data }) => {
           console.log(data);
           dispatch(authActions.login());
-          setUser(data.user);
         })
         .catch((error) => {
           console.log(error);
@@ -29,7 +27,7 @@ const Welcome = () => {
     getUser();
   }, [navigate, dispatch]);
 
-  return <div>{user && user.name}</div>;
+  return <div></div>;
 };
 
 export default Welcome;

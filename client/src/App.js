@@ -5,6 +5,8 @@ import Signup from "./components/Signup";
 import Welcome from "./components/Welcome";
 import Logout from "./components/Logout";
 import Verify from "./components/Verify";
+import Groups from "./pages/Groups";
+import Group from "./pages/Group";
 const App = () => {
   return (
     <>
@@ -16,6 +18,8 @@ const App = () => {
           <Route path="/" element={<Welcome />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/verify/:userId" element={<Verify />} />
+          <Route path="/groups" element={<Groups />} />
+          <Route path="/groups/:groupId" element={<Group />} />
         </Routes>
       </main>
     </>
