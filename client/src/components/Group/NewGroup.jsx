@@ -1,13 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { authActions } from "../../store";
-import { useDispatch } from "react-redux";
 import { useForm } from "@mantine/form";
 import {
   Button,
   Group,
   SegmentedControl,
+  Text,
   TextInput,
   Title,
   useMantineTheme,
@@ -22,11 +20,7 @@ import {
 axios.defaults.withCredentials = true;
 
 const NewGroup = ({ close, getMyGroups }) => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const theme = useMantineTheme();
-
-  //   const [user, setUser] = useState(null);
 
   const form = useForm({
     initialValues: {
@@ -42,22 +36,6 @@ const NewGroup = ({ close, getMyGroups }) => {
       type: (value) => (value ? null : "Please select group type"),
     },
   });
-
-  useEffect(() => {
-    const getUser = async () => {
-      await axios
-        .get("http://localhost:5000/api/user", {
-          withCredentials: true,
-        })
-        .then(({ data }) => {
-          dispatch(authActions.login());
-        })
-        .catch((error) => {
-          navigate("/login");
-        });
-    };
-    getUser();
-  }, [navigate, dispatch]);
 
   const createGroup = async (values) => {
     await axios
@@ -95,20 +73,9 @@ const NewGroup = ({ close, getMyGroups }) => {
           placeholder="Enter a group name"
           {...form.getInputProps("name")}
         />
-        <label
-          style={{
-            marginTop: "10px",
-            display: "inline-block",
-            fontSize: "0.875rem",
-            fontWeight: 500,
-            color: "#212529",
-            wordBreak: "break-word",
-            cursor: "default",
-            WebkitTapHighlightColor: "transparent",
-          }}
-        >
+        <Text mt="sm" fz="sm" fw={500} color="#212529">
           Type
-        </label>
+        </Text>
         <SegmentedControl
           color={theme.primaryColor}
           transitionDuration={500}
@@ -117,21 +84,6 @@ const NewGroup = ({ close, getMyGroups }) => {
           data={["Home", "Trip", "Office", "Sports", "Others"]}
           {...form.getInputProps("type")}
         />
-
-        {/* <Switch
-            label="Simplify Balance"
-            mt={"lg"}
-            // color="teal"
-            size="md"
-            thumbIcon={
-              form.values.simplify ? (
-                <IconCheck size="0.8rem" color={"teal"} stroke={3} />
-              ) : (
-                <IconX size="0.8rem" color={"red"} stroke={3} />
-              )
-            }
-            {...form.getInputProps("simplify")}
-          /> */}
         <Group position="center" mt="md">
           <Button
             leftIcon={<IconCircleX />}

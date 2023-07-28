@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { authActions } from "../store";
+import { authActions, userActions } from "../store";
 axios.defaults.withCredentials = true;
 
 const Logout = () => {
@@ -17,6 +17,7 @@ const Logout = () => {
         .then((res) => {
           if (Number(res.status) === 200) {
             dispatch(authActions.logout());
+            dispatch(userActions.removeUser());
             navigate("/login");
           }
         })

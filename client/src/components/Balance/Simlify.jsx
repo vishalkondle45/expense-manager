@@ -3,7 +3,7 @@ import { IconCheck, IconX } from "@tabler/icons-react";
 import React, { useState } from "react";
 
 const Simlify = () => {
-  const [simplify, setSimpify] = useState(null);
+  const [simplify, setSimpify] = useState(false);
   return (
     <>
       <Paper shadow="xl" radius="md" p="md" withBorder>

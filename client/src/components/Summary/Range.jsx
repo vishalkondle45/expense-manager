@@ -12,6 +12,7 @@ const Range = () => {
             size="sm"
             onClick={() => setRange(item)}
             variant={`${range === item ? "filled" : "outline"}`}
+            key={item}
           >
             {item}
           </Badge>

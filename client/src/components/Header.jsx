@@ -96,8 +96,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export default function Header() {
-  const isLoggedIn = useSelector((state) => state.isLoggedIn);
-
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const links = isLoggedIn
     ? [
         {
