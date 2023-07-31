@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const userRoutes = require("../server/routes/user");
 const groupRoutes = require("../server/routes/group");
 const expenseRoutes = require("../server/routes/expense");
+const summaryRoutes = require("../server/routes/summary");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 require("dotenv").config();
@@ -23,6 +24,7 @@ app.use(cookieParser());
 app.use("/api", userRoutes);
 app.use("/api/group", groupRoutes);
 app.use("/api/expense", expenseRoutes);
+app.use("/api", summaryRoutes);
 
 // Database Connection
 mongoose

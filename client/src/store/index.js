@@ -98,12 +98,31 @@ const groupUsersSlice = createSlice({
     },
   },
 });
+const summarySlice = createSlice({
+  name: "groupUsers",
+  initialState: {
+    totalSpends: 0,
+    allSpends: [],
+    allShares: [],
+  },
+  reducers: {
+    setSummary(state, { payload }) {
+      state.totalSpends = payload.totalSpends;
+      state.allSpends = payload.allSpends;
+      state.allShares = payload.allShares;
+    },
+    clear(state) {
+      state.groupUsers = [];
+    },
+  },
+});
 
 export const authActions = authSlice.actions;
 export const userActions = userSlice.actions;
 export const groupActions = groupSlice.actions;
 export const expenseActions = expenseSlice.actions;
 export const groupUsersActions = groupUsersSlice.actions;
+export const summaryActions = summarySlice.actions;
 
 export const store = configureStore({
   reducer: {
@@ -112,5 +131,6 @@ export const store = configureStore({
     group: groupSlice.reducer,
     expense: expenseSlice.reducer,
     groupUsers: groupUsersSlice.reducer,
+    summary: summarySlice.reducer,
   },
 });

@@ -26,7 +26,10 @@ const UserSpending = ({ amounts, title, color }) => {
           amount={amounts[3]}
         />
         <Divider my="xs" variant="dashed" />
-        <SpendingLine text={"Balance (A+C)-(B+D)"} amount={amounts[4]} />
+        <SpendingLine
+          text={"Balance (A+C)-(B+D)"}
+          amount={amounts[0] + amounts[2] - (amounts[1] + amounts[3])}
+        />
       </Paper>
     </>
   );

@@ -13,7 +13,12 @@ import { useViewportSize } from "@mantine/hooks";
 import Summary from "../components/Summary/Summary";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { expenseActions, groupActions, groupUsersActions } from "../store";
+import {
+  expenseActions,
+  groupActions,
+  groupUsersActions,
+  summaryActions,
+} from "../store";
 import { useDispatch } from "react-redux";
 import { notifications } from "@mantine/notifications";
 import { IconX } from "@tabler/icons-react";
@@ -59,6 +64,28 @@ const Group1 = () => {
           });
         });
     };
+    const getSummary = async () => {
+      await axios
+        .get(`http://localhost:5000/api/summary/${params.groupId}`)
+        .then(({ data }) => {
+          dispatch(
+            summaryActions.setSummary({
+              totalSpends: data.totalSum[0].totalValue,
+              allSpends: data.allSpends,
+              allShares: data.allShares,
+            })
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          notifications.show({
+            title: error.response.data.message || "Internal Server Error",
+            icon: <IconX />,
+            color: "red",
+          });
+        });
+    };
+    getSummary();
     getGroup();
     getGroupExpenses();
   }, [params.groupId, dispatch]);

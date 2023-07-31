@@ -35,6 +35,7 @@ const NewExpense = ({ close }) => {
       description: (value) => (value ? null : "Please enter description"),
       price: (value) => (value > 0 ? null : "Please enter description"),
       paidBy: (value, values) =>
+        // eslint-disable-next-line
         values.price ==
         value.reduce((accumulator, object) => {
           return accumulator + (Number(object?.amount) || 0);
@@ -42,6 +43,7 @@ const NewExpense = ({ close }) => {
           ? null
           : "Please correct the total.",
       splitAmong: (value, values) =>
+        // eslint-disable-next-line
         values.price ==
         value.reduce((accumulator, object) => {
           return accumulator + (Number(object?.amount) || 0);

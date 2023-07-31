@@ -1,5 +1,5 @@
 import { Box, Checkbox, Group, Text, TextInput } from "@mantine/core";
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 
 const SplitUnequally = ({ form }) => {
