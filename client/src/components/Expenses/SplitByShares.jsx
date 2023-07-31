@@ -1,7 +1,6 @@
 import { Box, Checkbox, Group, Text, TextInput } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-
 const SplitByShares = ({ form }) => {
   const { groupUsers } = useSelector((state) => state.groupUsers);
   const [shares, setShare] = useState(
@@ -15,6 +14,22 @@ const SplitByShares = ({ form }) => {
     form.setFieldValue("splitAmong", []);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    let abc = form.values.splitAmong.map((user) => {
+      return {
+        ...user,
+        amount:
+          ((form.values.price || 0) /
+            shares.reduce((accumulator, object) => {
+              return accumulator + Number(object.shares);
+            }, 0)) *
+          shares.find(({ _id: id }) => id === user._id)?.shares,
+      };
+    });
+    form.setFieldValue("splitAmong", abc);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.values.price]);
 
   return (
     <Box>
@@ -31,11 +46,13 @@ const SplitByShares = ({ form }) => {
             onChange={(e) => {
               const { splitAmong } = form.values;
               if (splitAmong.find(({ _id: id }) => id === _id)) {
+                setShare((share) => share.filter((s) => s._id !== _id));
                 form.setFieldValue(
                   "splitAmong",
                   splitAmong.filter(({ _id: id }) => id !== _id)
                 );
               } else {
+                setShare((shares) => [...shares, { _id, shares: 0 }]);
                 form.setFieldValue("splitAmong", [
                   ...splitAmong,
                   { _id: _id, amount: 0 },
@@ -44,6 +61,7 @@ const SplitByShares = ({ form }) => {
             }}
           />
           <Text fz="xs">
+            ₹{" "}
             {isNaN(
               (
                 ((form.values.price || 0) /
@@ -53,7 +71,7 @@ const SplitByShares = ({ form }) => {
                 shares.find(({ _id: id }) => id === _id)?.shares
               ).toFixed(2)
             )
-              ? "NaN"
+              ? "0"
               : (
                   ((form.values.price || 0) /
                     shares.reduce((accumulator, object) => {

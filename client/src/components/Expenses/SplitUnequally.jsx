@@ -1,9 +1,22 @@
 import { Box, Checkbox, Group, Text, TextInput } from "@mantine/core";
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const SplitUnequally = ({ form }) => {
   const { groupUsers } = useSelector((state) => state.groupUsers);
+
+  // useEffect(() => {
+  //   form.setFieldValue(
+  //     "splitAmong",
+  //     groupUsers.map(({ _id }) => {
+  //       return {
+  //         _id,
+  //         amount: Number(form.values.price) / groupUsers.length,
+  //       };
+  //     })
+  //   );
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [form.values.price]);
 
   return (
     <Box>
