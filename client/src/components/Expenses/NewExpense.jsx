@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "@mantine/form";
 import { Box, Center, Text, Title } from "@mantine/core";
-import { IconUserCircle, IconUsersGroup } from "@tabler/icons-react";
+import { IconCheck, IconUserCircle, IconUsersGroup, IconX } from "@tabler/icons-react";
 import { useSelector } from "react-redux";
 import ExpenseDetails from "./ExpenseDetails";
 import Tabs from "./Tabs";
@@ -12,6 +12,7 @@ import SplitEqually from "./SplitEqually";
 import SplitUnequally from "./SplitUnequally";
 import SplitByShares from "./SplitByShares";
 import Buttons from "./Buttons";
+import { notifications } from "@mantine/notifications";
 axios.defaults.withCredentials = true;
 
 const NewExpense = ({ close }) => {
@@ -101,7 +102,19 @@ const NewExpense = ({ close }) => {
   }, [value1]);
 
   const createGroup = async (values) => {
-    console.log(values);
+    await axios.post(`http://localhost:5000/api/expense/new`, values).then((res)=>{
+      notifications.show({
+        title:"Expense added successfully",
+        icon: <IconCheck/>,
+        color:"green"
+      })
+    }).catch((error)=>{
+      notifications.show({
+        title:"Expense adding failed",
+        icon: <IconX/>,
+        color:"red"
+      })
+    })
   };
   const payerTypeData = [
     {

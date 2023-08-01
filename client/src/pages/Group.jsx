@@ -70,7 +70,7 @@ const Group1 = () => {
         .then(({ data }) => {
           dispatch(
             summaryActions.setSummary({
-              totalSpends: data.totalSum[0].totalValue,
+              totalSpends: data.totalSum[0]?.totalValue,
               allSpends: data.allSpends,
               allShares: data.allShares,
             })

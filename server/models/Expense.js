@@ -25,11 +25,11 @@ const expenseSchema = new Schema(
       default: [],
       required: true,
     },
-    split: {
-      type: String,
-      enum: ["Equally", "Unequally"],
-      required: true,
-    },
+    // split: {
+    //   type: String,
+    //   enum: ["Equally", "Unequally"],
+    //   required: true,
+    // },
     splitAmong: {
       type: Array,
       default: [],
