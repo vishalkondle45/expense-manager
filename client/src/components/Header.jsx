@@ -100,6 +100,14 @@ export default function Header() {
   const links = isLoggedIn
     ? [
         {
+          link: "/",
+          label: "Home",
+        },
+        {
+          link: "/groups",
+          label: "Groups",
+        },
+        {
           link: "/logout",
           label: "Logout",
         },
